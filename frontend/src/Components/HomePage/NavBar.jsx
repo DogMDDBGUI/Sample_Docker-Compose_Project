@@ -2,7 +2,7 @@ import React from 'react'
 
 export class NavBar extends React.Component {
   menu = [
-    'My Profile', 'Book Appointment','Log Out'
+    'My Profile', 'Book Appointment', 'Logout'
   ];
 
   render() {
@@ -13,28 +13,18 @@ export class NavBar extends React.Component {
         </button>
         <a href="/" className="navbar-brand mr-0 mr-md-2">
           <img src={process.env.PUBLIC_URL + '/dog2.png'} width="30" height="30" class="d-inline-block align-top" alt=""/>
-          DogMD.
+          Dog Store
         </a>
         <div className="collapse navbar-collapse" id="navbar-items">
           <ul className="navbar-nav">
             {
-                <>
+              this.menu.map(item => (
                 <li className="nav-item">
                   <a className="nav-link" href="/">
-                    {this.menu[0]}
+                    {item}
                   </a>
                 </li>
-                <li className="nav-item">
-                <a className="nav-link" href="/">
-                  {this.menu[1]}
-                </a>
-              </li>
-              <li className="nav-item">
-              <a className="nav-link" href="/">
-                {this.menu[2]}
-              </a>
-            </li>
-            </>
+              ))
             }
           </ul>          
         </div>
