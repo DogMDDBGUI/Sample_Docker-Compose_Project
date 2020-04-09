@@ -14,7 +14,7 @@ export class Navbar extends React.Component {
         </button>
         <a href="/" className="navbar-brand mr-0 mr-md-2">
           <img src={process.env.PUBLIC_URL + '/dog2.png'} width="30" height="30" class="d-inline-block align-top" alt=""/>
-          Dog Store
+          Dog MD
         </a>
         <div className="collapse navbar-collapse" id="navbar-items">
           <ul className="navbar-nav">
