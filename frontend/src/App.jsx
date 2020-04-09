@@ -1,17 +1,17 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import { Navbar } from './layout/Navbar'
-import { LoginPage } from './login/LoginPage'
+import { Login,Register,NavBar } from './Components/Index';
 
 class App extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      number: "",
-      values: []
+      isLogginActive: true,
+      isLoggedout: true,
     };
+    this.ToggleLogin = this.ToggleLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -49,33 +49,66 @@ class App extends React.Component {
         this.setState({ values: values.data });
     });
   }
-
+  changeState() {
+    const { isLogginActive } = this.state;
+      this.rightSide.classList.toggle("right");
+      this.rightSide.classList.toggle("left");
+    
+    this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }));
+  }
+  ToggleLogin()
+  {
+    this.setState(prevState => ({ isLoggedout: !prevState.isLoggedout }));
+  }
 
   render(){
+    const { isLogginActive } = this.state;
+    const { isLoggedout } = this.state;
+    const current = isLogginActive ? "Register" : "Login";
+    const currentActive = isLogginActive ? "login" : "register";
     return (
-      <LoginPage />
-    )
-    // return (
-    //   <>
-    //     <Navbar />
-    //     <div className="App">
-    //       <header className="App-header">
-    //       <button onClick={this.initSetup} className="mb-3 btn btn-primary btn-block"> 
-    //         Initialize DB 
-    //       </button>
-    //         <form onSubmit={this.handleSubmit}>
-    //           <input className="mb-3 form-control" type="text" value={this.state.number} onChange={this.handleChange}/>
-    //           <input type="submit" value="Submit" className="btn btn-success btn-block"/>
-    //         </form>
-    //         <ul>
-    //           { this.state.values.map((value, i) => <li key={i}>{value.value}</li>) }
-    //         </ul>
-    //       </header>
-    //     </div>
-    //   </>
-    // );
+      <div className="App">
+        {isLoggedout && (
+        <div className="login">
+          <div className="container" ref={ref => (this.container = ref)}>
+            {isLogginActive && (
+              <Login action={this.ToggleLogin} containerRef={ref => (this.current = ref)} />
+            )}
+            {!isLogginActive && (
+              <Register action={this.ToggleLogin} containerRef={ref => (this.current = ref)} />
+            )}
+
+          </div>
+          
+          <RightSide
+            current={current}
+            currentActive={currentActive}
+            containerRef={ref => (this.rightSide = ref)}
+            onClick={this.changeState.bind(this)}
+          />
+        </div>
+        )}
+         {!isLoggedout &&(
+              <NavBar action = {this.ToggleLogin}/>
+              )}
+      </div>
+      
+    );
   }
 
 }
 
+const RightSide = props => {
+  return (
+    <div
+      className="right-side"
+      ref={props.containerRef}
+      onClick={props.onClick}
+    >
+      <div className="inner-container">
+        <div className="text">{props.current}</div>
+      </div>
+    </div>
+  );
+};
 export default App;
